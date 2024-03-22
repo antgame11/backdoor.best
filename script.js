@@ -1,5 +1,9 @@
 var email = "example@email.com"
 
+
+
+
+var messages = document.querySelector("#messages")
 window.addEventListener('load', function () {   
 function ohno(button) {
       setTimeout(function () {
@@ -545,15 +549,16 @@ function ohno(button) {
 
     function submitButton(button) {
       const message = document.getElementById('messageInput').value.trim();
-      if (message !== '') {
+      if (message !== '' && !document.querySelector(".countdown")) {
         sendMessage(message);
         document.querySelectorAll('.button').forEach(button => {
           button.classList.add('fade-out');
-          receiveMessage("gay")
         });
+        
       }
     }
 
+    var countdownInterval;
     function sendMessage(message) {
       const messageContainer = document.getElementById('messageContainer');
       let pageLoadId = localStorage.getItem('pageLoadId');
@@ -568,36 +573,40 @@ function ohno(button) {
       document.getElementById('messageInput').value = '';
       const countdownContainer = document.createElement('div');
       countdownContainer.classList.add('countdown-container');
-      messageContainer.insertBefore(countdownContainer, document.getElementById('messageInput'));
-
+      messageElement.appendChild(messageContainer);
       const countdownElement = document.createElement('div');
       countdownElement.classList.add('countdown', 'size-up-animation');
       countdownElement.innerText = 'Generating an AI Response... 0.0s';
       countdownElement.style.fontSize = '18px';
       countdownElement.style.color = '#808080';
       countdownElement.style.top = '15%';
-      countdownElement.style.right = '15%';
+      countdownElement.stylhe.right = '15%';
       countdownContainer.appendChild(countdownElement);
 
       let countdownTime = 0.1;
-      const countdownInterval = setInterval(() => {
+      countdownInterval = setInterval(() => {
         countdownElement.innerText = `Generating an AI Response... ${countdownTime.toFixed(1)}s`;
         countdownTime += 0.1;
-      }, 125);
+      }, 100);
       
-
-    function receiveMessage(message) {
-      const messageContainer = document.getElementById('messageContainer');
-      const messageElement = document.createElement('div');
-      messageElement.classList.add('message-gray');
-      messageElement.innerText = message;
-
-      if (message.length > 50) {
-      }
-
-      messageContainer.insertBefore(messageElement, document.getElementById('messageInput'));
+      messageContainer.insertBefore(messages, messageElement);
 
       messageContainer.scrollTop = messageContainer.scrollHeight;
+      //add thing here to recieve message thing
+    }
+    function receiveMessage(message) {
+      const messageContainer = document.getElementById('messageContainer');
+      const messageElement   = document.createElement('div');
+      messageElement.classList.add('message-gray');
+      messageContainer.insertBefore(messages, messageElement);
+      messageElement.innerText = message;
+      if (document.querySelector(".countdown")) {
+        clearInterval(countdownInterval)
+        document.querySelector(".countdown").remove()
+      }
+      console.log(messageElement)
+      if (message.length > 50) {
+      }
     }
 
     function buttonClick(button) {
@@ -771,4 +780,4 @@ function ohno(button) {
       });
     }
   }
-});
+);
