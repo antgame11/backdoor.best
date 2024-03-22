@@ -549,6 +549,7 @@ function ohno(button) {
         sendMessage(message);
         document.querySelectorAll('.button').forEach(button => {
           button.classList.add('fade-out');
+          receiveMessage("gay")
         });
       }
     }
